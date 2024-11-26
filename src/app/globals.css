@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@layer utilities {
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+:root {
+  --dark: rgb(4 15 40 / var(--tw-text-opacity, 1));
+  --light: rgb(244 246 248 / var(--tw-text-opacity, 1));
+  --primary: rgb(34 149 200 / var(--tw-text-opacity, 1));
+  --secondary: rgb(253 190 51 / var(--tw-text-opacity, 1));
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    border-radius: 10px;
+    background: #e3e3e3;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #3e3e3e;
+  }
+}
+
+body {
+  width: 100vw;
+  height: auto;
+  display: flex;
+  overflow-x: hidden;
+
+  :is(#root, #portal) {
+    width: 100vw;
+    display: flex;
+    overflow: auto;
+    overflow-x: hidden;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #root {
+    flex: 1 0 auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  #portal {
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    position: fixed;
+    transition: 400ms;
+    backdrop-filter: blur(1em);
+    background-color: rgba(0 0 0 / 0.6);
+
+    &:empty {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
