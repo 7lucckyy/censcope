@@ -34,7 +34,7 @@ export default {
         '6xl': '20%'
       },
       backgroundImage: {
-        'logo': "url('/logo.svg')",
+        'logo': "url('/logo.png')",
         'support': "url('/images/support.jpg')",
         'discover': "url('/images/discover.jpg')",
         'spiral': "url('/images/spiral-pattern.png')",

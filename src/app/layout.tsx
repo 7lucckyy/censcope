@@ -4,7 +4,7 @@ import PortalProvider from "@/components/providers/portal.provider";
 
 export const metadata: Metadata = {
     title: "Giant Works",
-    icons: { icon: '/logo.svg' },
+    icons: { icon: '/logo.png' },
     description: "Connecting artisans with customers",
 };
 
