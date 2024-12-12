@@ -1,26 +1,14 @@
 "use client";
 import Banner from "@/components/banner";
-import News from "@/components/landing/news";
+import OurActions from "@/components/landing/actions";
 import ScrollableSection from "@/components/scrollable";
-import JobOffers from "@/components/sections/join-us/job-offers";
-import WorkWithus from "@/components/sections/join-us/work-witus";
 
 export default function Page() {
   const sections = [
     {
-      id: "job-offers",
-      label: "Job offers",
-      component: JobOffers,
-    },
-    {
-      id: "work-withus",
-      component: WorkWithus,
-      label: "What working with us means",
-    },
-    {
-      label: "News",
-      id: "newsline",
-      component: News,
+      id: "actions",
+      label: "Our Actions",
+      component: OurActions,
     },
   ];
 

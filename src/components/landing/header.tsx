@@ -57,28 +57,28 @@ export default function Header() {
         </Link>
 
         <Link
-          href="#about"
+          href="/newsline"
           className="relative flex flex-col transition-all hover:text-cyan-600 md:hover:text-inherit text-center after:h-1 after:bg-cyan-600 after:w-0 md:hover:after:w-full after:transition-all"
         >
           news
         </Link>
 
         <Link
-          href="#about"
+          href="/our-actions"
           className="relative flex flex-col transition-all hover:text-cyan-600 md:hover:text-inherit text-center after:h-1 after:bg-cyan-600 after:w-0 md:hover:after:w-full after:transition-all"
         >
           our actions
         </Link>
 
         <Link
-          href="#about"
+          href="/support-us"
           className="relative flex flex-col transition-all hover:text-cyan-600 md:hover:text-inherit text-center after:h-1 after:bg-cyan-600 after:w-0 md:hover:after:w-full after:transition-all"
         >
           support us
         </Link>
 
         <Link
-          href="#about"
+          href="/join-us"
           className="relative flex flex-col transition-all hover:text-cyan-600 md:hover:text-inherit text-center after:h-1 after:bg-cyan-600 after:w-0 md:hover:after:w-full after:transition-all"
         >
           join us
@@ -86,7 +86,7 @@ export default function Header() {
       </nav>
 
       <Link
-        href="#"
+        href="/donate"
         className="flex gap-4 items-center px-8 py-2 text-white group  md:text-xl bg-cyan-600 capitalize"
       >
         donate{" "}
