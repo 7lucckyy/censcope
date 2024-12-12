@@ -3,7 +3,7 @@ import React from "react";
 import NewslineCard from "./cards/newsline";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-export default function Newsline() {
+export default function News() {
     return <section id="newsline" className="flex flex-col gap-10 py-10">
         <header className="w-full flex gap-4 items-center justify-between flex-wrap px-md md:px-2xl">
             <div className="flex flex-col md:gap-4 ">

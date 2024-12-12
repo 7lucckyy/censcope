@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import PortalProvider from "@/components/providers/portal.provider";
 
 export const metadata: Metadata = {
-    title: "Giant Works",
+    title: "Censcope",
     icons: { icon: '/logo.png' },
-    description: "Connecting artisans with customers",
+    description: "Non Governemtnal Website",
 };
 
 export default function Layout(properties: React.PropsWithChildren) {

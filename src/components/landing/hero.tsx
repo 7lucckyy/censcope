@@ -1,9 +1,9 @@
 "use client";
+import React from "react";
 import { useMousePosition } from "@/hooks/mouse.hook";
 import { useIntersectionObserver } from "@/hooks/observe.hook";
-import React from "react";
 
-export default function Banner() {
+export default function Hero() {
     const { x, y } = useMousePosition();
     const { ref, entryData } = useIntersectionObserver();
 

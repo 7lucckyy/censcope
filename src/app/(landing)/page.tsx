@@ -1,20 +1,18 @@
-import Banner from "@/components/landing/banner";
-import Commit from "@/components/landing/commit";
+import Hero from "@/components/landing/hero";
+import News from "@/components/landing/news";
 import Support from "@/components/landing/support";
 import Actions from "@/components/landing/actions";
 import Discover from "@/components/landing/discover";
-import Newsline from "@/components/landing/newsline";
 import SocialMedia from "@/components/landing/socialmedia";
 
 export default function Page() {
     return (
         <>
-            <Banner />
-            <Newsline />
+            <Hero />
+            <News />
             <Support />
             <Actions />
             <Discover />
-            <Commit />
             <SocialMedia />
         </>
     );

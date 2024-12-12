@@ -1,10 +1,9 @@
 "use client";
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { useIntersectionObserver } from "@/hooks/observe.hook";
-import Image from "next/image";
-import { discoverCards } from "@/constants/config";
 import DiscoverCard from "./cards/discover";
+import { FaArrowRight } from "react-icons/fa";
+import { discoverCards } from "@/constants/config";
+import { useIntersectionObserver } from "@/hooks/observe.hook";
 
 export default function Discover() {
     const { ref, entryData } = useIntersectionObserver();
