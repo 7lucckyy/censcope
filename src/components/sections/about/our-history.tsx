@@ -1,14 +1,11 @@
 "use client";
-import { useIntersectionObserver } from "@/hooks/observe.hook";
 
 export default function OurHistory() {
-  const { ref } = useIntersectionObserver();
-
   return (
-    <section ref={ref} id="our-history" className="flex flex-col gap-10 py-14">
+    <section id="our-history" className="flex flex-col gap-10 py-14">
       <header className="w-full flex flex-col items-start gap-4 px-lg lg:px-5xl">
         <h2 className="text-xl lg:text-4xl">Our history ?</h2>
-        <p className="text-sm lg:text-base text-justify flex flex-col gap-6">
+        <div className="text-sm lg:text-base text-justify flex flex-col gap-6">
           <p className="">
             In 1979, the Afghan population was suffering as a result of internal
             conflict and the Soviet invasion. Doctors, nurses, midwives and
@@ -46,7 +43,7 @@ export default function OurHistory() {
             hazard-related disasters. <b>Première Urgence Internationale</b> is
             now one of the largest French humanitarian NGOs.
           </p>
-        </p>
+        </div>
       </header>
     </section>
   );

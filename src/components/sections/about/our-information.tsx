@@ -1,11 +1,8 @@
 "use client";
-import { useIntersectionObserver } from "@/hooks/observe.hook";
 
 export default function OurInformation() {
-  const { ref } = useIntersectionObserver();
-
   return (
-    <section ref={ref} id="our-information" className="flex flex-col gap-10 py-14">
+    <section id="our-information" className="flex flex-col gap-10 py-14">
       <header className="w-full flex flex-col items-start gap-4 px-lg lg:px-5xl">
         <h2 className="text-xl lg:text-4xl">Who we are ?</h2>
         <p className="text-sm lg:text-base text-justify">

@@ -26,7 +26,7 @@ export default function Header() {
 
   return (
     <header
-      className={`w-full gap-2 shadow-md fixed flex items-center justify-between py-4 px-md top-0 z-50 duration-500 transition-all bg-white ${
+      className={`w-full gap-2 shadow-md fixed flex items-center justify-between py-4 px-md top-0 left-0 z-50 duration-500 transition-all bg-white ${
         isOpague ? "md:bg-white" : "md:bg-transparent"
       }`}
     >
