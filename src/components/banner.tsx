@@ -11,7 +11,7 @@ export default function Banner(properties: {
   return (
     <section
       id="banner"
-      className="w-full bg-gray-600 flex flex-col gap-10 items-start pt-10 p-md md:p-lg md:pt-20 pb-40 mt-20 md:mt-28"
+      className="w-full bg-gray-600 flex flex-col gap-10 items-center pt-10 p-md md:p-lg md:pt-20 pb-40 mt-20 md:mt-28"
     >
       <Image
         alt=""
@@ -22,7 +22,7 @@ export default function Banner(properties: {
       />
 
       <header className="w-full flex items-center justify-start gap-2 z-10">
-        <p className="p-1 text-sm bg-white flex gap-2 capitalize">
+        <p className="p-1 text-xs lg:text-sm bg-white flex gap-2 capitalize">
           <Link href="/" className="underline">
             home
           </Link>
@@ -39,7 +39,7 @@ export default function Banner(properties: {
         <h3 className="font-black uppercase text-2xl lg:text-5xl text-cyan-600 font-titillium">
           {properties.title}
         </h3>
-        <p className="font-bold uppercase text-xs lg:text-xl p-4 py-10 w-10/12 lg:w-3/5 bg-white">
+        <p className="font-bold uppercase text-xs lg:text-lg p-4 py-10 w-10/12 w-5/6 bg-white">
           {properties.content}
         </p>
       </div>

@@ -1,26 +1,45 @@
-"use client";
-import { useIntersectionObserver } from "@/hooks/observe.hook";
-
 export default function CrowdFunding() {
-  const { ref } = useIntersectionObserver();
+  const lists = [
+    { content: "Visit the Gandee website." },
+    {
+      content:
+        "Select “Première Urgence Internationale” from the suggested associations.",
+    },
+    { content: "Create and personalize your solidarity kitty." },
+    {
+      content:
+        "Invite your friends and network to take part in the generosity of your solidarity kitty.",
+    },
+    {
+      content:
+        "100% of the money raised goes directly to Première Urgence Internationale in an account opened in our name. Donations are tax-deductible, and participants receive their tax receipts.",
+    },
+  ];
 
   return (
     <section
-      ref={ref}
       id="crowd-funding"
-      className="flex flex-col gap-10 py-14 px-lg lg:px-5xl bg-gray-100"
+      className="flex flex-col gap-10 py-14 px-lg lg:px-6xl"
     >
-      <header className="w-full flex flex-col items-center text-center gap-4">
-        <h2 className="text-xl lg:text-4xl">Our commitments</h2>
-        <p className="text-sm lg:text-base text-center lg:w-3/5">
-          To help, relieve and preserve lives by carrying out humanitarian and
-          development actions throughout the world, without discrimination, on
-          behalf of civilian victims endangered, marginalized or excluded by the
-          effects of armed conflict, hazard-related disasters or economic
-          collapse resulting from political upheaval or the consequences of
-          environmental and climatic degradation.
-        </p>
+      <header className="w-full flex flex-col items-start gap-4">
+        <h2 className="text-xl lg:text-4xl">Crowdfunding</h2>
+
+        <div className="text-xs lg:text-sm text-justify flex flex-col gap-6">
+          <p className="">
+            Raise funds for Première Urgence Internationale thanks to our
+            crowdfunding partner Gandee.
+          </p>
+        </div>
       </header>
+
+      <div className="flex flex-col gap-4">
+        {lists.map((item, index) => (
+          <p key={item.content} className="text-sm flex items-start gap-2">
+            <b className="font-anton whitespace-nowrap">{index + 1} /</b>{" "}
+            {item.content}
+          </p>
+        ))}
+      </div>
     </section>
   );
 }

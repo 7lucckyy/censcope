@@ -1,26 +1,33 @@
-"use client";
-import { useIntersectionObserver } from "@/hooks/observe.hook";
+import { FaArrowRight } from "react-icons/fa";
 
-export default function EventPart() {
-  const { ref } = useIntersectionObserver();
+export default function Eventpart() {
+  const lists = [
+    { content: "Exhibitions" },
+    { content: "Conferences" },
+    { content: "Solidarity bibs" },
+    { content: "Charity streamings" },
+  ];
 
   return (
     <section
-      ref={ref}
       id="event-part"
-      className="flex flex-col gap-10 py-14 px-lg lg:px-5xl bg-gray-100"
+      className="flex flex-col gap-10 py-14 px-lg lg:px-6xl"
     >
-      <header className="w-full flex flex-col items-center text-center gap-4">
-        <h2 className="text-xl lg:text-4xl">Our commitments</h2>
-        <p className="text-sm lg:text-base text-center lg:w-3/5">
-          To help, relieve and preserve lives by carrying out humanitarian and
-          development actions throughout the world, without discrimination, on
-          behalf of civilian victims endangered, marginalized or excluded by the
-          effects of armed conflict, hazard-related disasters or economic
-          collapse resulting from political upheaval or the consequences of
-          environmental and climatic degradation.
-        </p>
+      <header className="w-full flex flex-col items-start gap-4">
+        <h2 className="text-xl lg:text-4xl">
+          Throughout the year, you can support us by taking part in the various
+          events we organize.
+        </h2>
       </header>
+
+      <div className="flex flex-col gap-4">
+        {lists.map((item, index) => (
+          <p key={item.content} className="text-sm flex items-center gap-2">
+            <FaArrowRight size={22} className="text-cyan-600" />
+            {item.content}
+          </p>
+        ))}
+      </div>
     </section>
   );
 }

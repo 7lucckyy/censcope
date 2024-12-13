@@ -10,10 +10,9 @@ interface SectionConfig {
 export default function ScrollableSection(props: {
   sections: SectionConfig[];
 }) {
-  const [activeSection, setActiveSection] = useState<string>("");
+  const [activeSection, setActiveSection] = useState("");
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRefs = useRef<{ [key: string]: IntersectionObserver }>({});
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const { ref, entryData } = useIntersectionObserver();
 
@@ -70,7 +69,7 @@ export default function ScrollableSection(props: {
           scrollProgress > 0
             ? "fixed top-20 lg:top-28 left-0 right-0"
             : "relative"
-        } bg-white z-10 p-4 transition-all duration-300`}
+        } bg-white z-50 p-4 transition-all duration-300`}
       >
         <div className="hidden lg:flex gap-4 px-md items-center justify-evenly">
           {props.sections.map(({ id, label }) => (
@@ -89,7 +88,7 @@ export default function ScrollableSection(props: {
             </button>
           ))}
         </div>
-        <div className="h-0.5 bg-gray-200 mt-4">
+        <div className="h-0.5 bg-gray-200 mt-4 overflow-hidden">
           <div
             className="h-full bg-cyan-600 transition-all ease-linear duration-300"
             style={{ width: `${scrollProgress}%` }}

@@ -11,7 +11,7 @@ export default function OurHistory() {
             conflict and the Soviet invasion. Doctors, nurses, midwives and
             pharmacists of the “Aide Médicale Internationale” (AMI) association
             took action in the field, training the locals in medicine. Their
-            slogan was “Let’s help them do without us”. For 31 years, AMI
+            slogan was “Let&#39;s help them do without us”. For 31 years, AMI
             provided health support to populations in extremely hard-hit and
             conflict-affected areas, training local health staff, providing
             cross-border aid, and rebuilding medical facilities. “Backpack”

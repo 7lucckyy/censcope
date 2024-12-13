@@ -2,8 +2,11 @@
 import Banner from "@/components/banner";
 import News from "@/components/landing/news";
 import ScrollableSection from "@/components/scrollable";
+import HrPolicy from "@/components/sections/join-us/hr-policy";
 import JobOffers from "@/components/sections/join-us/job-offers";
-import WorkWithus from "@/components/sections/join-us/work-witus";
+import MakeCareer from "@/components/sections/join-us/make-career";
+import WorkWithus from "@/components/sections/join-us/work-withus";
+import JobCategory from "@/components/sections/join-us/job-category";
 
 export default function Page() {
   const sections = [
@@ -18,6 +21,21 @@ export default function Page() {
       label: "What working with us means",
     },
     {
+      id: "make-career",
+      component: MakeCareer,
+      label: "Make a career",
+    },
+    {
+      id: "hr-policy",
+      component: HrPolicy,
+      label: "HR policy",
+    },
+    {
+      id: "job-category",
+      component: JobCategory,
+      label: "Jobs",
+    },
+    {
       label: "News",
       id: "newsline",
       component: News,
@@ -27,11 +45,10 @@ export default function Page() {
   return (
     <>
       <Banner
-        path="Our Actions"
-        title="our actions"
+        path="Join us"
+        title="join us"
         image="/images/support.jpg"
-        content={`Our 199 projects are carried out in 25 countries by 3,007 national employees, 219 expatriates and 139 head office staff. 
-        Having become Première Urgence Internationale in 2011, the organization is now active in 25 countries in Africa, Asia, Europe, Latin America, and the Middle East, engaging in direct aid for populations suffering crises.`}
+        content={`Première Urgence Internationale is always on the lookout for new talent to expand its team, whether at headquarters in France or in our 25 countries of intervention. Don't wait any longer, join us !`}
       />
 
       <ScrollableSection sections={sections} />
