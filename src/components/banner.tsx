@@ -39,7 +39,7 @@ export default function Banner(properties: {
         <h3 className="font-black uppercase text-2xl lg:text-5xl text-cyan-600 font-titillium">
           {properties.title}
         </h3>
-        <p className="font-bold uppercase text-xs lg:text-lg p-4 py-10 w-10/12 w-5/6 bg-white">
+        <p className="font-bold uppercase text-xs lg:text-lg p-4 py-10 w-10/12 lg:w-5/6 bg-white">
           {properties.content}
         </p>
       </div>

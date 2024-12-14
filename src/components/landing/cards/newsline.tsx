@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa";
 export default function NewslineCard() {
     const title = "A poor family living in a dirty, rundown neighborhood".split(" ");
 
-    return <Link href="#" className="w-80 group aspect-[3/4.5] bg-gray-600 flex flex-none flex-col items-start justify-between p-8 snap-start relative overflow-hidden">
+    return <Link href="#" className="basis-80 group aspect-[3/4.5] bg-gray-600 flex flex-none flex-col items-start justify-between p-8 snap-start relative overflow-hidden">
         <Image
             alt=""
             width={1000}
