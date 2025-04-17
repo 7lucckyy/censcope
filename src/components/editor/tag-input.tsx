@@ -76,7 +76,7 @@ export function TagInput({
       (initialSelectedTags.length !== selectedTags.length ||
         !initialSelectedTags.every((tag, index) => selectedTags[index]?.id === tag.id))
     ) {
-      setSelectedTags(initialSelectedTags);
+      // setSelectedTags(initialSelectedTags);
     }
   }, [initialSelectedTags, selectedTags]);
 
@@ -177,7 +177,7 @@ export function TagInput({
           selectedTags.length === 0 && "hidden"
         )}
       >
-        {initialSelectedTags.map((tag) => (
+        {selectedTags.map((tag) => (
           <Badge
             key={tag.id}
             variant="secondary"

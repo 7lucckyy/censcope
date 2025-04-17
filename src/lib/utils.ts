@@ -114,3 +114,24 @@ export function generateSummary(html: string | null): string {
     return "Ooops! An error occurred while generating blog post content preview text.";
   }
 }
+
+export function getSupabaseImagePath(partialPath: string) {
+  const BUCKET_NAME = process.env.SUPABASE_BUCKET_NAME;
+  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  // check if the path is a valid URL
+  if (isValidUrl(partialPath.trim())) {
+    return partialPath; // Return the URL as is
+  }
+  // If not, construct the URL using the base URL and the partial path
+  if (!SUPABASE_URL || !BUCKET_NAME) {
+    throw new Error("Supabase URL or bucket name is not defined");
+  }
+
+  if (partialPath.startsWith("/")) {
+    partialPath = partialPath.substring(1); // Remove leading slash
+  }
+  if (partialPath.endsWith("/")) {
+    partialPath = partialPath.slice(0, -1); // Remove trailing slash
+  }
+  return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET_NAME}/${partialPath}`;
+}

@@ -36,7 +36,7 @@ export const posts = pgTable("post", {
   ...timestamps,
 });
 
-export const images = pgTable("image", {
+export const images = pgTable("images", {
   id: text("cuid")
     .primaryKey()
     .$defaultFn(() => createId()),
