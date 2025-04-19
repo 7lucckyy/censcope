@@ -15,7 +15,7 @@ export function NewsCard({
 }: CombinedPost) {
   return (
     <Link
-      href={`/newsline/${slug}`}
+      href={`/our-newsline/${slug}`}
       className="aspect-[3/4] group gap-2 bg-gray-600 flex flex-none flex-col items-start justify-between p-4 xl:p-6 snap-center lg:snap-start relative overflow-hidden"
     >
       <Image
