@@ -1,0 +1,268 @@
+"use server";
+
+import postgres from "postgres";
+import { isAuthApiError } from "@supabase/supabase-js";
+import { ZodError, z } from "zod"; // Using Zod for validation
+
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { createSupabaseAdmin } from "../supabase/server";
+import { eq } from "drizzle-orm";
+
+const BUCKET_NAME = process.env.SUPABASE_BUCKET_NAME!;
+
+if (!BUCKET_NAME) {
+  // Throw immediately during server startup/build if env var is missing
+  throw new Error("SUPABASE_BUCKET_NAME environment variable is not defined");
+}
+
+// Define a schema for input validation using Zod
+const UserSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address"),
+  // Add password complexity rules if desired, e.g., .min(8)
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  avatar: z
+    .instanceof(File, { message: "Avatar must be a file" })
+    // Add validation for file type and size if needed
+    .refine((file) => file.size > 0, "Avatar cannot be empty")
+    .optional(), // Make avatar optional if desired, or keep required
+});
+
+// Define a consistent return type for the action
+type ActionResult =
+  | { success: true; message: string; userId?: string; email?: string } // Add relevant success data
+  | { success: false; message: string; errors?: Record<string, string[]> }; // Include validation errors
+
+export async function createUser(formdata: FormData): Promise<ActionResult> {
+  // 1. Validate Input Data
+  const rawFormData = Object.fromEntries(formdata.entries());
+  const validationResult = UserSchema.safeParse(rawFormData);
+
+  if (!validationResult.success) {
+    console.error("Validation Error:", validationResult.error.flatten());
+    return {
+      success: false,
+      message: "Invalid form data.",
+      errors: validationResult.error.flatten().fieldErrors,
+    };
+  }
+
+  const { name, email, password, avatar } = validationResult.data;
+  let avatarPath: string | undefined = undefined; // Store avatar path
+
+  try {
+    const supabase = await createSupabaseAdmin();
+
+    // 2. Handle Avatar Upload (if provided)
+    if (avatar) {
+      // Generate a unique filename to prevent collisions
+      const fileExtension = avatar.name.split(".").pop();
+      const uniqueFileName = `avatars/${name}__${avatar.name}.${fileExtension}`;
+
+      const { data: imageData, error: imageError } = await supabase.storage
+        .from(BUCKET_NAME)
+        .upload(uniqueFileName, avatar, {
+          cacheControl: "3600", // Keep cache control as needed
+          upsert: false, // Keep false if you never want to overwrite, true if the UUID somehow collided (highly unlikely)
+        });
+
+      if (imageError) {
+        console.error(`Error uploading avatar ${avatar.name}:`, imageError);
+        // Handle specific storage errors more gracefully
+        if (
+          typeof imageError === "object" &&
+          imageError !== null &&
+          "statusCode" in imageError &&
+          imageError.statusCode === "409"
+        ) {
+          // Example: Check for bucket not found, permissions error, etc.
+          // You might want different messages based on imageError.statusCode or imageError.message
+          return {
+            success: false,
+            message: `Failed to upload profile picture: ${imageError.message}`,
+          };
+        }
+        // Generic storage error
+        return {
+          success: false,
+          message:
+            "An unexpected error occurred while uploading the profile picture.",
+        };
+      }
+      avatarPath = imageData?.path; // Store the path for DB insert
+      if (!avatarPath) {
+        // This shouldn't happen if upload succeeded without error, but check just in case
+        console.error(
+          "Avatar upload succeeded but path is missing:",
+          imageData
+        );
+        return {
+          success: false,
+          message: "Failed to get avatar path after upload.",
+        };
+      }
+    }
+
+    // 3. Sign Up User with Supabase Auth
+    // Note: If this fails, the avatar might already be uploaded.
+    // Consider cleanup logic if strict atomicity is required (complex).
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      // You can add options like 'data' here if needed for Supabase Auth user metadata
+      // options: {
+      //  data: { full_name: name } // Example
+      // }
+    });
+
+    if (authError) {
+      console.error("Supabase Auth Error:", authError);
+      // Delete the uploaded avatar if auth fails?
+      // if (avatarPath) {
+      //     await supabase.storage.from(BUCKET_NAME).remove([avatarPath]);
+      // }
+      if (isAuthApiError(authError)) {
+        // Provide more specific messages if possible based on authError.status
+        if (
+          authError.status === 400 &&
+          authError.message.includes("User already registered")
+        ) {
+          return {
+            success: false,
+            message: "This email address is already registered.",
+          };
+        }
+        if (authError.status === 422) {
+          // Often password policy errors
+          return {
+            success: false,
+            message: `Signup failed: ${authError.message}`,
+          };
+        }
+        // Default Auth API error
+        return {
+          success: false,
+          message: `Authentication error: ${authError.message}`,
+        };
+      }
+      // Default non-API auth error
+      return {
+        success: false,
+        message: "An unexpected error occurred during sign up.",
+      };
+    }
+
+    if (!authData.user) {
+      // This case might indicate email confirmation is required or another unexpected issue
+      console.error(
+        "Supabase Auth Signup succeeded but user object is missing."
+      );
+      // Delete the uploaded avatar if auth "succeeded" but user is null?
+      // if (avatarPath) {
+      //     await supabase.storage.from(BUCKET_NAME).remove([avatarPath]);
+      // }
+      return {
+        success: false,
+        message:
+          "Signup process did not complete successfully. Please check your email or try again.",
+      };
+    }
+
+    // 4. Insert User Data into Local Database
+    // Note: If this fails, the Supabase Auth user exists, but the local profile doesn't.
+    // Consider adding logic to delete the Supabase Auth user if this DB insert fails (complex).
+    const userData = {
+      name,
+      avatar: avatarPath,
+    };
+
+    // Ensure your 'users' schema has an 'id' (UUID or text) column as primary key
+    // and an 'avatar_url' (text, nullable) column.
+    const result = await db
+      .update(users)
+      .set(userData)
+      .where(eq(users.id, authData.user.id))
+      .returning({
+        insertedId: users.id, // return specific fields
+        insertedEmail: users.email,
+      });
+
+    if (!result || result.length === 0) {
+      console.error(
+        "DB insert failed after successful signup. Auth User ID:",
+        authData.user.id
+      );
+      // CRITICAL: Potential inconsistency. Consider cleanup:
+      // await supabase.auth.admin.deleteUser(authData.user.id); // Requires Supabase Admin privileges
+      // if (avatarPath) {
+      //     await supabase.storage.from(BUCKET_NAME).remove([avatarPath]);
+      // }
+      return {
+        success: false,
+        message: "Failed to save user profile information after signup.",
+      };
+    }
+
+    // 5. Return Success
+    return {
+      success: true,
+      message: `User registration initiated successfully for ${result[0].insertedEmail}. Please check your email for verification if required.`,
+      userId: result[0].insertedId,
+      email: result[0].insertedEmail,
+    };
+  } catch (error) {
+    console.error("Error creating user:", error);
+
+    // Handle specific DB errors (PostgresError)
+    if (error instanceof postgres.PostgresError) {
+      // You already had good handlers here, keep them.
+      let message = "Database error occurred.";
+      if (error.code === "23505")
+        message = "User profile data conflicts with existing data.";
+      // More generic than "User already exists" if based on ID/email from Auth
+      else if (error.code === "23514")
+        message = "Invalid data provided for user profile.";
+      else if (error.code === "23503") message = "Profile data relation error.";
+      else if (error.code === "23502")
+        message = "Missing required profile information.";
+      else if (error.code === "22007")
+        message = "Invalid date format in profile.";
+
+      return { success: false, message };
+    }
+
+    // Handle Zod errors during parsing (though `safeParse` catches them earlier)
+    if (error instanceof ZodError) {
+      const fieldErrors = error.flatten().fieldErrors;
+      const sanitizedErrors: Record<string, string[]> = {};
+
+      Object.keys(fieldErrors).forEach((key) => {
+        if (fieldErrors[key]) {
+          sanitizedErrors[key] = fieldErrors[key] as string[];
+        }
+      });
+
+      return {
+        success: false,
+        message: "Invalid data provided.",
+        errors: sanitizedErrors,
+      };
+    }
+
+    // Handle generic errors
+    if (error instanceof Error) {
+      // Avoid exposing potentially sensitive details from error.message directly
+      return {
+        success: false,
+        message: `An unexpected server error occurred: ${error.message}`,
+      }; // Or a more generic message for production
+    }
+
+    // Fallback for unknown errors
+    return {
+      success: false,
+      message: "An unknown error occurred while creating the user.",
+    };
+  }
+}

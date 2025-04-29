@@ -1,10 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { createId } from "@paralleldrive/cuid2";
+import { eq, like, sql } from "drizzle-orm";
+
 import { db } from "@/db";
 import { createClient } from "../supabase/server";
 import { InsertPost, posts, postsToTags } from "@/db/schema";
-import { eq, like, sql } from "drizzle-orm";
 import { slugify } from "../utils";
 
 export async function createPost() {
@@ -16,16 +18,12 @@ export async function createPost() {
       .where(like(posts.title, "Untitled Post %"));
 
     const untitledPostCount = untitledPostCountResult[0]?.count ?? 0;
-    console.log(
-      untitledPostCountResult,
-      untitledPostCount,
-      typeof untitledPostCount
-    );
+
     // 2. Generate the new title
     const title = `Untitled Post #${+untitledPostCount + 1}`;
 
     // 3. Generate the slug
-    const slug = slugify(title);
+    const slug = `${slugify(title)}-${createId()}`;
 
     const supabase = await createClient();
     const {
@@ -37,23 +35,6 @@ export async function createPost() {
       return { message: "Supabase getUser error." };
     }
 
-    // Check for existing slugs and append a number if necessary
-    // let slugExists = true;
-    // let slugSuffix = 0;
-    // while (slugExists) {
-    //   const existingSlugCountResult = await db
-    //     .select({ count: sql<number>`count(*)` })
-    //     .from(posts)
-    //     .where(eq(posts.slug, slug));
-    //   const existingSlugCount = existingSlugCountResult[0]?.count ?? 0;
-    //   if (existingSlugCount === 0) {
-    //     slugExists = false;
-    //   } else {
-    //     slugSuffix++;
-    //     slug = slugify(`${title}-${slugSuffix}`);
-    //   }
-    // }
-    // 4. Create the new post in the database
     const newPost = await db
       .insert(posts)
       .values({

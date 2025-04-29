@@ -22,6 +22,20 @@
       "when": 1744843863512,
       "tag": "0002_pale_spirit",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1745938335413,
+      "tag": "0003_blushing_kate_bishop",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1745965507395,
+      "tag": "0004_awesome_hammerhead",
+      "breakpoints": true
     }
   ]
 }

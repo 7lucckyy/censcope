@@ -40,6 +40,7 @@ export function TagInput({
   placeholder = "Select or create tags...",
   maxTags,
 }: TagInputProps) {
+  console.log(initialSelectedTags);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
@@ -63,14 +64,13 @@ export function TagInput({
   );
 
   React.useEffect(() => {
-    onChange(selectedTags.map(tag=>tag.id))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[selectedTags])
-
+    onChange(selectedTags.map((tag) => tag.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTags]);
 
   const handleRemoveTag = React.useCallback((tagToRemove: SelectTag) => {
     setSelectedTags((prev) => {
-      return prev.filter((tag) => tag.id !== tagToRemove.id)
+      return prev.filter((tag) => tag.id !== tagToRemove.id);
     });
   }, []);
 

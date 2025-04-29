@@ -35,7 +35,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import StarterKit from "@tiptap/starter-kit";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {toast} from "sonner"
+import { toast } from "sonner"
 
 import { BorderTrail } from "@/components/motion-primitives/border-trail";
 import { Button } from "@/components/ui/button";
@@ -109,16 +109,16 @@ const extensions = [
 ];
 
 interface PostAttributes {
-    id: string;
-    title: string;
-    slug: string;
-    content: string | null;
-    tags: {
-        tag: {
-            name: string;
-            id: string;
-        };
-    }[];
+  id: string;
+  title: string;
+  slug: string;
+  content: string | null;
+  tags: {
+    tag: {
+      name: string;
+      id: string;
+    };
+  }[];
 }
 
 interface TiptapEditorProps extends PostAttributes {
@@ -145,7 +145,7 @@ function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) 
     setPending(true)
     const formdata = new FormData();
     // If title is different from current, this is to prevent unique_constraint when deriving slug due to same title
-    if(values.title!==title) formdata.set("title", values.title);
+    if (values.title !== title) formdata.set("title", values.title);
     if (values.tags)
       values.tags.forEach((tag) => {
         formdata.append("tags", tag);
@@ -177,8 +177,8 @@ function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) 
           <div className="flex w-full items-center py-2 px-2 justify-between border-b bg-background">
             <SidebarTrigger />
             <Button type="submit" disabled={pending}>{pending ?
-              <Loader2 className="mr-2 size-4 animate-spin"/>
-            : <Save className="size-4"/>}Save</Button>
+              <Loader2 className="mr-2 size-4 animate-spin" />
+              : <Save className="size-4" />}Save</Button>
           </div>
         </header>
 
@@ -211,7 +211,7 @@ function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) 
                   availableTags={allTags}
                   onChange={field.onChange}
                   placeholder="Add or create tags..."
-                  initialSelectedTags={tags.map(t=>t.tag)}
+                  initialSelectedTags={tags.map(t => t.tag)}
                   maxTags={5}
                 />
               </FormControl>
@@ -231,24 +231,24 @@ function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) 
         >
           <div className="flex items-center gap-2 pt-2 sticky top-0 z-10 bg-background">
             <ToolbarProvider editor={editor}>
-              <UndoToolbar type="button"/>
-              <RedoToolbar type="button"/>
+              <UndoToolbar type="button" />
+              <RedoToolbar type="button" />
               <Separator orientation="vertical" className="h-7" />
-              <HeadingToolbar type="button"/>
-              <BoldToolbar type="button"/>
-              <ItalicToolbar type="button"/>
-              <LinkToolbar type="button"/>
-              <UnderlineToolbar type="button"/>
-              <BulletListToolbar type="button"/>
-              <OrderedListToolbar type="button"/>
+              <HeadingToolbar type="button" />
+              <BoldToolbar type="button" />
+              <ItalicToolbar type="button" />
+              <LinkToolbar type="button" />
+              <UnderlineToolbar type="button" />
+              <BulletListToolbar type="button" />
+              <OrderedListToolbar type="button" />
               <AlignmentTooolbar />
-              <ImagePlaceholderToolbar type="button"/>
+              <ImagePlaceholderToolbar type="button" />
               <ColorHighlightToolbar />
               <SearchAndReplaceToolbar />
             </ToolbarProvider>
           </div>
           <EditorContent
-            className="outline-none [&>.tiptap.ProseMirror]:px-10 [&>.tiptap.ProseMirror]:py-5 -z-10 min-h-[18rem] !h-full !font-[var(--font-sans)]"
+            className="outline-none [&>.tiptap.ProseMirror]:px-10 [&>.tiptap.ProseMirror]:py-5 [&>.ProseMirror]:min-h-[18rem] -z-10 !font-[var(--font-sans)]"
             editor={editor}
           />
         </div>

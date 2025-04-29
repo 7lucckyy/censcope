@@ -9,11 +9,10 @@ import { relations } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 import { timestamps } from "./columns.helpers";
 
-export const users = pgTable("user", {
-  id: text("cuid")
-    .primaryKey()
-    .$defaultFn(() => createId()), // 👈 Auto-generates CUID on insert,
+export const users = pgTable("users", {
+  id: text("cuid").primaryKey(),
   email: text("email").notNull().unique(),
+  avatar: text("avatars"),
   name: text("name"),
   ...timestamps,
 });

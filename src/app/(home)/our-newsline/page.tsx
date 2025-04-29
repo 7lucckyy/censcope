@@ -7,7 +7,7 @@ import {
 
 import { db } from "@/db";
 import { posts, tags as tagsTable, users } from "@/db/schema";
-import {NewsCard} from "./(sections)/news/card";
+import { NewsCard } from "./(sections)/news/card";
 import Banner from "./(sections)/banner";
 import { Filter } from "./(sections)/filter";
 
@@ -80,7 +80,7 @@ async function Page(props: { searchParams: SearchParams }) {
     <>
       <Banner />
       <Filter count={finalPosts.length} tags={tags} authors={authors} />
-      <div className="w-full grid gap-6 grid-cols-3 fill-20 pb-10 px-5% lg:px-7%">
+      <div className="w-full grid gap-6 grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] pb-10 px-5% lg:px-7%">
         {finalPosts.map((post) => (
           <NewsCard
             key={post.id}

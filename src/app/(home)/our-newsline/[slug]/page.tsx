@@ -10,6 +10,7 @@ import TiptapRenderer from "@/components/editor/renderer";
 import { PostToc } from "@/components/editor/renderer/components/post-toc";
 import Link from "next/link";
 import { SharePostButton } from "@/components/post/share-post";
+import { CopyLinkButton } from "@/components/post/copy-link";
 
 async function OurNewslineItemPage({
   params,
@@ -46,8 +47,8 @@ async function OurNewslineItemPage({
   return (
     <main>
       <div className="bg-[url('/noise-light.svg')] mt-28 relative">
-        <article className="max-w-content mx-auto grid grid-cols-4 gap-x-4 px-4 md:grid-cols-8 2xl:grid-cols-12 items-start py-20">
-          <div className="lg:hidden col-span-full">
+        <article className="max-w-content mx-auto grid grid-cols-4 gap-y-10 gap-x-4 px-4 md:grid-cols-8 2xl:grid-cols-12 items-start py-20">
+          <div className="lg:hidden col-span-full max-lg:order-1">
             <Link
               className="flex items-center gap-1 font-mono text-xs uppercase leading-none"
               href="/our-newsline"
@@ -68,7 +69,7 @@ async function OurNewslineItemPage({
             </Link>
           </div>
           <PostToc />
-          <div className="flex flex-col gap-12 rounded-2xl border bg-white p-8 2xl:col-start-4 2xl:col-span-6 lg:col-start-3 lg:col-span-4 col-span-full">
+          <div className="max-lg:order-3 flex flex-col gap-12 rounded-2xl border bg-white p-8 2xl:col-start-4 2xl:col-span-6 lg:col-start-3 lg:col-span-4 col-span-full">
             <header className="flex flex-col gap-6">
               <Link
                 className="lg:flex hidden items-center gap-1 font-mono text-xs uppercase leading-none"
@@ -105,10 +106,10 @@ async function OurNewslineItemPage({
               <TiptapRenderer>{String(post.content)}</TiptapRenderer>
             </div>
           </div>
-          <div className="my-16 lg:hidden col-span-full">
+          {/* <div className="my-16 lg:hidden col-span-full">
             <hr />
-          </div>
-          <aside className="flex flex-col sticky top-8 max-h-[calc(100vh-4rem)] gap-8 overflow-y-auto 2xl:col-start-10 2xl:col-span-3 lg:col-start-7 lg:col-span-2 col-span-full">
+          </div> */}
+          <aside className="max-lg:order-2 flex flex-col lg:sticky top-8 lg:max-h-[calc(100vh-4rem)] gap-8 overflow-y-auto 2xl:col-start-10 2xl:col-span-3 lg:col-start-7 lg:col-span-2 col-span-full">
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-3 lg:order-1">
                 <div className="text-xs font-inter uppercase">/Authors</div>
@@ -191,26 +192,7 @@ async function OurNewslineItemPage({
                     </SharePostButton>
                   </li>
                   <li>
-                    <SharePostButton
-                      text={post.title}
-                      platform="copy"
-                      className="flex flex-col bg-light-blur size-10 items-center justify-center rounded-lg border lg:order-4"
-                    >
-                      <div className="sr-only">Copy link</div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="19"
-                        height="18"
-                        fill="none"
-                      >
-                        <path
-                          fill="currentColor"
-                          fillRule="evenodd"
-                          d="M2.164 1.786a4.93 4.93 0 0 1 7.15 0l2.562 2.66c1.953 2.03 1.953 5.304 0 7.332l-.01.012c-.414.43-.885.772-1.39 1.022a.875.875 0 0 1-.777-1.568 3.22 3.22 0 0 0 .903-.666l.013-.013c1.3-1.351 1.3-3.554 0-4.905L8.053 3a3.18 3.18 0 0 0-4.628 0l-.012.011c-1.3 1.351-1.3 3.554 0 4.905l1.096 1.139a.875.875 0 0 1-1.26 1.213L2.152 9.13C.2 7.101.2 3.826 2.152 1.798m0 0 .012-.012-.012.012ZM9.57 5.582a.875.875 0 0 1-.395 1.173 3.25 3.25 0 0 0-.903.666l-.001.001-.012.012c-1.3 1.351-1.3 3.554 0 4.905L10.821 15a3.18 3.18 0 0 0 4.629 0l.011-.012c1.3-1.351 1.3-3.553 0-4.904l-1.096-1.14a.875.875 0 1 1 1.26-1.213l1.097 1.139c1.953 2.029 1.953 5.303 0 7.332l-.012.012a4.93 4.93 0 0 1-7.15 0l-2.562-2.662c-1.953-2.028-1.953-5.303 0-7.331l.011-.011c.413-.43.884-.773 1.389-1.023a.875.875 0 0 1 1.172.395Z"
-                          clipRule="evenodd"
-                        ></path>
-                      </svg>
-                    </SharePostButton>
+                    <CopyLinkButton />
                   </li>
                 </ul>
               </div>

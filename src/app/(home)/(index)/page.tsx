@@ -8,6 +8,9 @@ import {
   SocialMedia,
 } from "./(sections)/no-ssr";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0; // 0 for no cache, 60 for 1 minute cache
+
 export default async function Page() {
   const posts = await db.query.posts.findMany({
     orderBy: (posts, { desc }) => [desc(posts.updatedAt)],

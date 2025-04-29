@@ -32,7 +32,7 @@ export function PostToc() {
   if (!items.length) return null;
 
   return (
-    <details className="flex flex-col my-6 max-h-[calc(100vh-4rem)] gap-2 lg:sticky lg:top-8 lg:my-0 lg:gap-8 2xl:col-span-3 lg:col-span-2 col-span-full">
+    <details className="group/accordion flex flex-col my6 lg:max-h-[calc(100vh-4rem)] gap-2 lg:sticky lg:top-8 lg:my-0 lg:gap-8 2xl:col-span-3 lg:col-span-2 col-span-full">
       <summary className="bg-light-blur rounded-xl border cursor-pointer list-none !marker:content-none">
         <span className="flex w-full items-center gap-2 p-4">
           <svg
@@ -47,7 +47,7 @@ export function PostToc() {
             ></path>
           </svg>
           <span>Table of Content</span>
-          <span className="ml-auto">
+          <span className="ml-auto group-open/accordion:rotate-180 transition-transform">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -63,34 +63,32 @@ export function PostToc() {
           </span>
         </span>
       </summary>
-      <nav className="">
-        <ul className="flex-col z-10 !hidden overflow-y-auto lg:!flex">
-          {items.map((item) => (
-            <li
-              key={item.id}
-              className="list-inside"
-              style={
-                {
-                  // paddingLeft: `${(item.level - 1) * 1}rem`,
-                }
+      <ul className="flex flex-col gap-0 h-0group-open/accordion:h-auto transition-[max-height]duration-300delay-100ease-in-out">
+        {items.map((item) => (
+          <li
+            key={item.id}
+            className="list-inside my-0 py-0"
+            style={
+              {
+                // paddingLeft: `${(item.level - 1) * 1}rem`,
               }
+            }
+          >
+            <Link
+              href={`#${item.id}`}
+              onClick={scrollToHeading(item.id)}
+              className={cn(
+                "transition-colors py-2 font-titillium uppercase text-sm border-s-[0.375rem] first-of-type:pt-0 last-of-type:pb-0 ps-4",
+                activeId === item.id
+                  ? "!text-dark !border-dark"
+                  : "text-dark/30 border-dark/10"
+              )}
             >
-              <Link
-                href={`#${item.id}`}
-                onClick={scrollToHeading(item.id)}
-                className={cn(
-                  "transition-colors py-2 font-titillium uppercase text-sm border-s-[0.375rem] first-of-type:pt-0 last-of-type:pb-0 ps-4",
-                  activeId === item.id
-                    ? "!text-dark !border-dark"
-                    : "text-dark/30 border-dark/10"
-                )}
-              >
-                {item.text}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+              {item.text}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </details>
   );
 }

@@ -108,7 +108,9 @@ export function generateSummary(html: string | null): string {
     }
 
     return longestParagraph.textContent
-      ? longestParagraph.textContent
+      ? longestParagraph.textContent.length > 365
+        ? longestParagraph.textContent.substring(0, 365) + "..."
+        : longestParagraph.textContent.substring(0, 365)
       : "Blog post doesn't contain a content.";
   } catch {
     return "Ooops! An error occurred while generating blog post content preview text.";
