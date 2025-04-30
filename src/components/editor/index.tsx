@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Loader2, Save } from "lucide-react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { ImageExtension } from "@/components/editor/extensions/image";
 import { Link } from "@/components/editor/extensions/link";
@@ -53,6 +52,7 @@ import {
 import { updatePost } from "@/lib/actions/post";
 import { TagInput } from "./tag-input";
 import { SelectTag } from "@/db/schema";
+import Image from "next/image";
 
 const FormSchema = z.object({
   tags: z
@@ -172,15 +172,29 @@ function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) 
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 p-4 h-full"
       >
-        <header className="sticky top-0 z-20 group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
+        <div className="sticky top-0 z-20 border-b border-black/5 dark:border-white/10">
           <BorderTrail />
-          <div className="flex w-full items-center py-2 px-2 justify-between border-b bg-background">
-            <SidebarTrigger />
+          <div className="bg-white dark:bg-gray-950 flex justify-between items-center">
+            <div className="flex h-14 items-center justify-between gap-8 px-4 sm:px-6">
+              <div className="flex items-center gap-4">
+                <div className="shrink-0 overflow-y-clip">
+                  <Image
+                    alt="Censcope logo"
+                    src="/logo.png"
+                    width={120}
+                    height={28}
+                    className="h-20 object-top"
+                  />
+                </div>
+              </div>
+
+
+            </div>
             <Button type="submit" disabled={pending}>{pending ?
               <Loader2 className="mr-2 size-4 animate-spin" />
               : <Save className="size-4" />}Save</Button>
           </div>
-        </header>
+        </div>
 
         <h2 className="text-lg font-semibold mb-4">Post Details</h2>
 
@@ -191,11 +205,8 @@ function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) 
             <FormItem>
               <FormLabel>Blog Post Title</FormLabel>
               <FormControl>
-                <Input placeholder="Blog Post Title (1)" {...field} />
+                <Input placeholder="Blog Post (1)" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
