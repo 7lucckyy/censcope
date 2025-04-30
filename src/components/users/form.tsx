@@ -4,17 +4,21 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { toast } from "sonner"
 
 import { AvatarUpload } from './avatar-upload';
 import { createUser } from "@/lib/actions/users";
-import Image from "next/image";
+import { SelectUser } from "@/db/schema";
+import { getSupabaseImagePath } from "@/lib/utils";
+
 
 
 const MAX_FILE_SIZE = 1024 * 1024 * 5; // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export const UserFormSchema = z.object({
+    userId: z.string().optional(),
     name: z
         .string({
             required_error: "Please enter the user's name",
@@ -44,21 +48,21 @@ export const UserFormSchema = z.object({
 });;
 
 
-
-
-function UsersForm() {
+function UsersForm({ user }: { user: SelectUser | null }) {
     const [image, setImage] = useState<string | undefined>(undefined)
     const [pending, setPending] = useState(false)
     const form = useForm({
         resolver: zodResolver(UserFormSchema),
+        defaultValues: { name: user?.name ?? "", email: user?.email ?? "", userId: user?.id }
     });
 
     const watchedAvatar = form.watch('avatar'); // 'avatar' should match the name prop passed to AvatarUpload
-    console.log(watchedAvatar)
+
     const onSubmit = async (values: z.infer<typeof UserFormSchema>) => {
         setPending(true)
         const formdata = new FormData();
-        // If title is different from current, this is to prevent unique_constraint when deriving slug due to same title
+
+        if (values.userId) formdata.set("userId", values.userId);
         formdata.set("name", values.name);
         formdata.set("email", values.email);
         formdata.set("password", values.password);
@@ -72,7 +76,7 @@ function UsersForm() {
 
     };
     return (
-        <form className="col-span-3" onSubmit={form.handleSubmit(onSubmit, err => console.error(err))}>
+        <form className="" onSubmit={form.handleSubmit(onSubmit, err => console.error(err))}>
             <div className="p-8 rounded-2xl border-x border-x-(--pattern-fg) bg-[image:repeating-linear-gradient(315deg,_var(--pattern-fg)_0,_var(--pattern-fg)_1px,_transparent_0,_transparent_50%)] bg-[size:10px_10px] bg-fixed [--pattern-fg:var(--color-black)]/5">
                 <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div className="sm:col-span-4">
@@ -145,23 +149,24 @@ function UsersForm() {
                         </div>
                     </div>
 
-                    {/* --- 5. Displaying the Selected File Name (Optional) --- */}
-                    {image && (
+                    {(image || user?.avatar) && (
                         <div className="col-span-full">
                             <label htmlFor="photo" className="block text-sm/6 font-medium text-gray-900">
                                 Photo
                             </label>
                             <div className="mt-2 flex items-center gap-x-3">
                                 <div className="size-12 rounded-full overflow-clip">
-                                    <Image width={48} height={48} src={image} alt="" />
+                                    <Image width={48} height={48} src={image ?? getSupabaseImagePath(user?.avatar as string)} alt="" />
                                 </div>
-                                <button
-                                    type="button"
-                                    onClick={() => { setImage(undefined); form.resetField("avatar") }}
-                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Remove
-                                </button>
+                                {watchedAvatar &&
+                                    <button
+                                        type="button"
+                                        onClick={() => { setImage(undefined); form.resetField("avatar") }}
+                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                    >
+                                        Remove
+                                    </button>
+                                }
                             </div>
                         </div>
                     )}
@@ -170,19 +175,16 @@ function UsersForm() {
                     {form.formState.errors.avatar && <p className="mt-1 text-sm text-red-600">{form.formState.errors.avatar.message?.toString()}</p>}
 
                 </div>
-            </div>
-            <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button type="button" className="text-sm/6 font-semibold text-gray-900">
-                    Cancel
-                </button>
-                <button
-                    type="submit"
-                    disabled={pending}
-                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                    {pending ? "Creating..." : "Create User"}
+                <div className="mt-6 flex items-center justify-end gap-x-6">
+                    <button
+                        type="submit"
+                        disabled={pending}
+                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    >
+                        {pending ? `${user ? "Updating" : "Creating"}...` : `${user ? "Update User" : "Create User"}`}
 
-                </button>
+                    </button>
+                </div>
             </div>
         </form>
     )
