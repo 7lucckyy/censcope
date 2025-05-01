@@ -1,41 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Save } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { ImageExtension } from "@/components/editor/extensions/image";
-import { Link } from "@/components/editor/extensions/link";
-import { ImagePlaceholder } from "@/components/editor/extensions/image-placeholder";
-import SearchAndReplace from "@/components/editor/extensions/search-and-replace";
-import { AlignmentTooolbar } from "@/components/editor/toolbars/alignment";
-import { BoldToolbar } from "@/components/editor/toolbars/bold";
-import { BulletListToolbar } from "@/components/editor/toolbars/bullet-list";
-import { ColorHighlightToolbar } from "@/components/editor/toolbars/color-and-highlight";
-import { ImagePlaceholderToolbar } from "@/components/editor/toolbars/image-placeholder-toolbar";
-import { ItalicToolbar } from "@/components/editor/toolbars/italic";
-import { LinkToolbar } from "@/components/editor/toolbars/link/button";
-import { OrderedListToolbar } from "@/components/editor/toolbars/ordered-list";
-import { RedoToolbar } from "@/components/editor/toolbars/redo";
-import { SearchAndReplaceToolbar } from "@/components/editor/toolbars/search-and-replace-toolbar";
-import { ToolbarProvider } from "@/components/editor/toolbars/toolbar-provider";
-import { UnderlineToolbar } from "@/components/editor/toolbars/underline";
-import { UndoToolbar } from "@/components/editor/toolbars/undo";
-import { HeadingToolbar } from "@/components/editor/toolbars/heading";
-import { Color } from "@tiptap/extension-color";
-import Heading from "@tiptap/extension-heading";
-import Highlight from "@tiptap/extension-highlight";
-import Subscript from "@tiptap/extension-subscript";
-import Superscript from "@tiptap/extension-superscript";
-import TextAlign from "@tiptap/extension-text-align";
-import TextStyle from "@tiptap/extension-text-style";
-import Underline from "@tiptap/extension-underline";
-import { EditorContent, type Extension, useEditor } from "@tiptap/react";
+import { ChevronLeft, Loader2, Save } from "lucide-react";
+import NextLink from "next/link";
+import { EditorContent, type Extension, useEditor, useEditorState } from "@tiptap/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import StarterKit from "@tiptap/starter-kit";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner"
 
+import { Separator } from "@/components/ui/separator";
 import { BorderTrail } from "@/components/motion-primitives/border-trail";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,7 +26,9 @@ import {
 import { updatePost } from "@/lib/actions/post";
 import { TagInput } from "./tag-input";
 import { SelectTag } from "@/db/schema";
-import Image from "next/image";
+import { extensionKit } from "./kit"
+import ToolbarBlock from "./toolbars";
+
 
 const FormSchema = z.object({
   tags: z
@@ -66,47 +42,6 @@ const FormSchema = z.object({
   }),
 });
 
-const extensions = [
-  StarterKit.configure({
-    orderedList: {
-      HTMLAttributes: {
-        class: "list-decimal",
-      },
-    },
-    bulletList: {
-      HTMLAttributes: {
-        class: "list-disc",
-      },
-    },
-    heading: {
-      levels: [1, 2, 3, 4, 5, 6],
-      HTMLAttributes: {
-        class: "tiptap-heading",
-      },
-    },
-  }),
-  TextAlign.configure({
-    types: ["heading", "paragraph"],
-  }),
-  Heading.configure({
-    levels: [1, 2, 3, 4, 5, 6],
-    HTMLAttributes: {
-      class: "custom-heading",
-    },
-  }),
-  TextStyle,
-  Subscript,
-  Superscript,
-  Underline,
-  Link,
-  Color,
-  Highlight.configure({
-    multicolor: true,
-  }),
-  ImageExtension,
-  ImagePlaceholder,
-  SearchAndReplace,
-];
 
 interface PostAttributes {
   id: string;
@@ -128,10 +63,20 @@ interface TiptapEditorProps extends PostAttributes {
 function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) {
   const [pending, setPending] = useState(false)
   const editor = useEditor({
-    extensions: extensions as Extension[],
+    extensions: extensionKit as Extension[],
     content,
     immediatelyRender: false,
   });
+
+  const counter = useEditorState({
+    editor,
+    selector: ctx => {
+      return {
+        characterCount: ctx.editor?.storage.characterCount.characters() ?? 0,
+        wordCount: ctx.editor?.storage.characterCount.words() ?? 0
+      }
+    },
+  })
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -175,24 +120,33 @@ function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) 
         <div className="sticky top-0 z-20 border-b border-black/5 dark:border-white/10">
           <BorderTrail />
           <div className="bg-white dark:bg-gray-950 flex justify-between items-center">
-            <div className="flex h-14 items-center justify-between gap-8 px-4 sm:px-6">
+            <div className="flex h-12 items-center justify-between gap-8 px-4 sm:px-6">
               <div className="flex items-center gap-4">
-                <div className="shrink-0 overflow-y-clip">
-                  <Image
-                    alt="Censcope logo"
-                    src="/logo.png"
-                    width={120}
-                    height={28}
-                    className="h-20 object-top"
-                  />
-                </div>
+                <NextLink
+                  className="text-sm/6 text-gray-950 dark:text-white inline-flex items-center gap-0.5"
+                  href="/admin"
+                >
+                  <ChevronLeft className="size-4" />
+                  <span className="">Back to Posts</span>
+                </NextLink>
+                <Separator orientation="vertical" className="h-7" />
+                <h1 className="text-lg font-semibold">Censcope Blog Post Editor</h1>
               </div>
-
-
             </div>
-            <Button type="submit" disabled={pending}>{pending ?
-              <Loader2 className="mr-2 size-4 animate-spin" />
-              : <Save className="size-4" />}Save</Button>
+            <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1 items-end">
+                <p className="text-xs/6 !leading-none text-gray-950 dark:text-white">
+                  {counter?.characterCount} characters
+                </p>
+                <p className="text-xs/6 !leading-none text-gray-950 dark:text-white">
+                  {counter?.wordCount} words
+                </p>
+              </div>
+              <Button type="submit" disabled={pending}>
+                {pending ? <Loader2 className="mr-2 size-4 animate-spin" /> : <Save className="size-4" />}
+                <span className="">Save</span>
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -240,24 +194,7 @@ function TiptapEditor({ title, content, id, tags, allTags }: TiptapEditorProps) 
           }}
           className="cursor-text bg-background p-2 pt-0 border-2 rounded-md h-[calc(100dvh-80px)] overflow-y-auto relative"
         >
-          <div className="flex items-center gap-2 pt-2 sticky top-0 z-10 bg-background">
-            <ToolbarProvider editor={editor}>
-              <UndoToolbar type="button" />
-              <RedoToolbar type="button" />
-              <Separator orientation="vertical" className="h-7" />
-              <HeadingToolbar type="button" />
-              <BoldToolbar type="button" />
-              <ItalicToolbar type="button" />
-              <LinkToolbar type="button" />
-              <UnderlineToolbar type="button" />
-              <BulletListToolbar type="button" />
-              <OrderedListToolbar type="button" />
-              <AlignmentTooolbar />
-              <ImagePlaceholderToolbar type="button" />
-              <ColorHighlightToolbar />
-              <SearchAndReplaceToolbar />
-            </ToolbarProvider>
-          </div>
+          <ToolbarBlock editor={editor} />
           <EditorContent
             className="outline-none [&>.tiptap.ProseMirror]:px-10 [&>.tiptap.ProseMirror]:py-5 [&>.ProseMirror]:min-h-[18rem] -z-10 !font-[var(--font-sans)]"
             editor={editor}

@@ -1,24 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LogOutIcon } from "lucide-react";
 
 import { CreatePostButton } from "./create-post-button";
+import { signOut } from "@/lib/actions/auth";
+
 
 export function Header() {
   return (
     <div className="fixed inset-x-0 top-0 z-10 border-b border-black/5 dark:border-white/10">
-      <div className="bg-white dark:bg-gray-950 flex justify-between items-center">
-        <div className="flex h-14 items-center justify-between gap-8 px-4 sm:px-6">
-          <div className="flex items-center gap-4">
-            <div className="shrink-0 overflow-y-clip">
-              <Image
-                alt="Censcope logo"
-                src="/logo.png"
-                width={120}
-                height={28}
-                className="h-20 object-top"
-              />
-            </div>
+      <div className="bg-white flex h-14 items-center justify-between gap-8 px-4 sm:px-6">
+        <div className="flex items-center gap-4">
+          <div className="shrink-0 overflow-y-clip">
+            <Image
+              alt="Censcope logo"
+              src="/logo.png"
+              width={120}
+              height={28}
+              className="h-20 object-top"
+            />
           </div>
+        </div>
+        <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-6 max-md:hidden">
             <Link
               className="text-sm/6 text-gray-950 dark:text-white"
@@ -75,30 +78,17 @@ export function Header() {
               </svg>
             </CreatePostButton>
           </div>
-          <div className="flex items-center gap-2.5 md:hidden">
-            <button
-              type="button"
-              aria-label="Search"
-              className="inline-grid size-7 place-items-center rounded-md"
-            >
-              <svg viewBox="0 0 16 16" fill="currentColor" className="size-4">
-                <path
-                  fillRule="evenodd"
-                  d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-            <button
-              type="button"
-              className="relative inline-grid size-7 place-items-center rounded-md text-gray-950 hover:bg-gray-950/5 dark:text-white dark:hover:bg-white/10 undefined"
-              aria-label="Navigation"
-            >
-              <span className="absolute top-1/2 left-1/2 size-11 -translate-1/2 [@media(pointer:fine)]:hidden"></span>
-              <svg viewBox="0 0 16 16" fill="currentColor" className="size-4">
-                <path d="M8 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM8 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM9.5 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"></path>
-              </svg>
-            </button>
+          <div >
+            <form action={signOut} className="">
+              <button
+                type="submit"
+                aria-label="Search"
+                className="grid place-items-center whitespace-nowrap"
+              >
+                <LogOutIcon className="size-4" />
+                <span className="">Log Out</span>
+              </button>
+            </form>
           </div>
         </div>
       </div>
