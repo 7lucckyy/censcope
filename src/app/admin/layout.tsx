@@ -4,12 +4,7 @@ import { Toaster } from "sonner";
 
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: {
-    template: "%s | CENSCOPE Admin Panel",
-    default: "CENSCOPE Admin Panel",
-  },
-};
+export const metadata: Metadata = {};
 
 const fontSans = FontSans({
   subsets: ["latin"],

@@ -1,17 +1,23 @@
-// lib/metadata.ts
 import { Metadata } from "next";
 
-import logo from "public/LOGOJ3.png";
-
-console.log(logo);
 export const siteUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
-export const ogImage = logo.src;
+
+export const ogImage = {
+  url: "/LOGOJ3.png", // path relative to `public/`
+  width: 1200,
+  height: 1500, // portrait ratio
+  alt: "CENSCOPE",
+};
 
 /* ----------------------------- HOME PAGE ----------------------------- */
 export const homeMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  twitter: {
+    card: "summary_large_image",
+    images: [ogImage],
+  },
   title: "CENSCOPE | Restoring Dignity, Inclusion & Hope",
   description:
     "CENSCOPE empowers vulnerable communities across Northeast Nigeria through medical care, rehabilitation, advocacy, and inclusive development. Discover our 2024 impact—105 survivors supported, 1.7 million people reached, and stronger communities built.",
@@ -24,6 +30,9 @@ export const homeMetadata: Metadata = {
     "community resilience",
     "Nigeria NGOs",
   ],
+  authors: [{ name: "Abdulmalik Yusuf", url: "https://await-dev.netlify.app" }],
+  creator: "CENSCOPE",
+  publisher: "Vuetify Solutions",
   openGraph: {
     title: "CENSCOPE | Restoring Dignity, Inclusion & Hope",
     description:
@@ -39,6 +48,10 @@ export const homeMetadata: Metadata = {
 /* ----------------------------- ABOUT US ----------------------------- */
 export const aboutMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  twitter: {
+    card: "summary_large_image",
+    images: [ogImage],
+  },
   title: "About Us | CENSCOPE - Empowering Inclusive Communities",
   description:
     "At CENSCOPE, our mission is rooted in dignity, inclusion, and resilience. We support survivors of explosive ordnance, promote disability inclusion, and strengthen community engagement across Nigeria.",
@@ -48,7 +61,7 @@ export const aboutMetadata: Metadata = {
       "Learn about CENSCOPE’s vision, values, and commitment to restoring hope and promoting inclusion for vulnerable communities.",
     url: "/about-us",
     siteName: "CENSCOPE",
-    type: "article",
+    type: "website",
     images: [ogImage],
   },
 };
@@ -56,6 +69,10 @@ export const aboutMetadata: Metadata = {
 /* ----------------------------- NEWS ----------------------------- */
 export const newsMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  twitter: {
+    card: "summary_large_image",
+    images: [ogImage],
+  },
   title: "News & Updates | CENSCOPE Impact Stories",
   description:
     "Read the latest updates and stories from CENSCOPE’s humanitarian and inclusion programs—featuring survivor journeys, advocacy highlights, and 2024 achievements across Northeast Nigeria.",
@@ -65,7 +82,7 @@ export const newsMetadata: Metadata = {
       "Stay informed on CENSCOPE’s latest achievements, advocacy efforts, and community resilience projects.",
     url: "/news",
     siteName: "CENSCOPE",
-    type: "article",
+    type: "website",
     images: [ogImage],
   },
 };
@@ -73,6 +90,10 @@ export const newsMetadata: Metadata = {
 /* ----------------------------- SUPPORT US ----------------------------- */
 export const supportMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  twitter: {
+    card: "summary_large_image",
+    images: [ogImage],
+  },
   title: "Support Us | Partner with CENSCOPE to Build Safer Communities",
   description:
     "Join us in restoring dignity and hope. Your support helps CENSCOPE provide rehabilitation, education, and livelihood opportunities for survivors and vulnerable communities across Nigeria.",
@@ -90,6 +111,10 @@ export const supportMetadata: Metadata = {
 /* ----------------------------- JOIN US ----------------------------- */
 export const joinMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  twitter: {
+    card: "summary_large_image",
+    images: [ogImage],
+  },
   title: "Join Us | Volunteer or Work with CENSCOPE",
   description:
     "Be part of a movement transforming lives across Nigeria. Join CENSCOPE as a volunteer, partner, or team member to advance inclusion, empowerment, and resilience.",
@@ -99,7 +124,7 @@ export const joinMetadata: Metadata = {
       "Collaborate with CENSCOPE to empower communities, support survivors, and promote inclusive development.",
     url: "/join-us",
     siteName: "CENSCOPE",
-    type: "profile",
+    type: "website",
     images: [ogImage],
   },
 };
@@ -107,6 +132,10 @@ export const joinMetadata: Metadata = {
 /* ----------------------------- OUR ACTIONS ----------------------------- */
 export const actionsMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  twitter: {
+    card: "summary_large_image",
+    images: [ogImage],
+  },
   title: "Our Actions | CENSCOPE - Building Resilience and Inclusion",
   description:
     "Discover CENSCOPE’s life-changing actions across Northeast Nigeria — from survivor support and disability inclusion to community resilience, advocacy, and humanitarian response. Every action brings us closer to a safer, more inclusive future for all.",
@@ -116,7 +145,7 @@ export const actionsMetadata: Metadata = {
       "Explore how CENSCOPE supports survivors, promotes inclusion, and strengthens resilience through rehabilitation, advocacy, and community education.",
     url: "/our-actions",
     siteName: "CENSCOPE",
-    type: "article",
+    type: "website",
     images: [ogImage],
   },
 };

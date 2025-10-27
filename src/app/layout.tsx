@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+import { homeMetadata } from '@/config/metadata';
 
 import "./global.css";
 
-export const metadata: Metadata = {
-  title: "Censcope",
-  icons: { icon: "/logo.png" },
-  description: "Non Governemtnal Website",
-};
+export const metadata = homeMetadata
 
 export default function Layout(properties: React.PropsWithChildren) {
   return (
