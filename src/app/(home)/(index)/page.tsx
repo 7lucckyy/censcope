@@ -54,7 +54,7 @@ export default async function Page() {
         <div className="flex flex-col md:flex-row gap-4 lg:gap-6 items-stretch bg-white">
           <div className="px-8 py-6 md:py-10 md:px-12 relative flex flex-col items-start justify-center gap-6 bg-cyan-600 text-white max-w-4xl mx-auto">
             <div className="z-10 flex flex-col gap-1 justify-start">
-              <h3 className="heading-6 md:heading-4 first-letter:capitalize">
+              <h3 className="heading-6 md:heading-4 first-letter:capitalize font-bold">
                 CENSCOPE
               </h3>
               <p className="md:text-lg !leading-none capitalize mt-1">
@@ -76,13 +76,7 @@ export default async function Page() {
               <p className="">
                 Centre for Social Cohesion, Peace and Empowerment helps civilian
                 victims, marginalized or excluded by the effects of conflict,
-                climate related disasters and situations of economic collapse.
-              </p>
-              <p className="">
-                Each year, Centre for Social Cohesion, Peace and Empowerment
-                most of its resources to the programs it deploys in its various
-                areas of intervention and only 0.2% to fundraising. Your
-                donations are essential.
+                climate related disasters and economic crises.
               </p>
             </div>
           </div>

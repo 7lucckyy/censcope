@@ -41,7 +41,7 @@ export function Discover() {
                     <p className="text-md md:text-xl">
                         The Centre for Social Cohesion, Peace and Empowerment (CENSCOPE)
                         helps civilian victims marginalized or excluded by the effects of
-                        war, climate shocks, and economic collapse.
+                        war, climate shocks, and economic crises.
                     </p>
 
                     <Link

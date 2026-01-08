@@ -8,8 +8,8 @@ export function Actions() {
       className="flex flex-col padding-horizontal padding-vertical"
     >
       <header className="w-full flex flex-col items-center md:gap-4">
-        <h2 className="text-xl md:text-3xl lg:4xl capitalize">our actions</h2>
-        <p className="lg:text-lg text-center">
+        <h2 className="text-2xl md:text-3xl lg:4xl capitalize">our actions</h2>
+        <p className="lg:text-xl text-lg text-center">
           Centre for Social Cohesion, Peace and Empowerment takes decisive and
           compassionate action to uplift{" "}
           <span className="text-cyan-600">vulnerable communities</span> affected
@@ -20,14 +20,14 @@ export function Actions() {
 
       <div className="flex flex-col md:flex-row md:items-center gap-6 lg:gap-10 mt-10 lg:mt-16">
         <div className="w-full flex flex-col items-start gap-6">
-          <p className="text-sm lg:text-base ">
+          <p className="">
             We deliver holistic humanitarian support that includes medical care,
             psychosocial assistance, livelihood empowerment, and inclusive
             education. By engaging local leaders, volunteers, and stakeholders,
             we foster community-driven solutions that promote safety,
             resilience, and social cohesion.
           </p>
-          <p className="text-sm lg:text-base ">
+          <p className="">
             Through targeted interventions such as Explosive Ordnance Risk
             Education, socio-economic reintegration, disaster response, and
             advocacy for disability inclusion, we address immediate needs while

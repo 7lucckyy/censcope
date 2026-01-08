@@ -9,12 +9,12 @@ import {
 } from "react-icons/fa";
 
 export const discovers = [
-  { title: "3,007", content: "national staff" },
+  { title: "100+", content: "Staffs and volunteers" },
   {
-    title: "199",
-    content: "projects in 25 countries and 5 geographical areas",
+    title: "50+",
+    content: "projects in 3 states",
   },
-  { title: "5 M", content: "people supported worldwide" },
+  { title: "500 K", content: "people impacted" },
 ];
 
 export const socialLinks = [
