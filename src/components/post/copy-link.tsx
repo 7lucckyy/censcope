@@ -16,7 +16,7 @@ export function CopyLinkButton() {
             }}
             type="button"
             aria-label="Copy link"
-            className="flex flex-col bg-light-blur size-10 items-center justify-center rounded-lg border lg:order-4"
+            className="flex flex-col bg-light-blur size-8 lg:size-10 items-center justify-center rounded-md lg:rounded-lg border lg:order-4"
         >
             <div className="sr-only">Copy link</div>
             {copied ?

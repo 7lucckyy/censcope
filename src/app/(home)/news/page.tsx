@@ -95,7 +95,7 @@ async function Page(props: { searchParams: SearchParams }) {
       <Filter count={finalPosts.length} tags={tags} authors={authors} />
       <div className="pb-12 lg:pb-20 max-w-7xl [1520px] w-full mx-auto px-4 sm:px-6 lg:px-8">
         {/* <div className="flex justify-center w-full"> */}
-        <div className="w-full grow-0 flex flex-wrap justify-start gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 [repeat(auto-fit,minmax(min(280px,100%),320px))]">
+        <div className="w-full grow-0 flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 [repeat(auto-fit,minmax(min(280px,100%),320px))]">
           {finalPosts.map((post) => (
             <NewsCard
               key={post.slug}

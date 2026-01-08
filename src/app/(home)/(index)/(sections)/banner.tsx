@@ -14,7 +14,7 @@ export function Banner() {
         width={1920}
         height={900}
         src={HeroImage}
-        className="absolute"
+        className="absolute inset-0 h-full"
       />
       <div className="flex items-center justify-center z-10 px-4 md:px-10 lg:px-20 md:max-w-5xl">
         <h2 className="text-white text-3xl md:text-4xl lg:text-6xl 2xl:text-7xl font-bold text-center text-balance uppercase">

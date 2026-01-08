@@ -20,10 +20,10 @@ export default function Page() {
         links={[{ label: "about us", href: "#" }]}
         description="We are a non-profit organisation that is committed to providing comprehensive support to individuals and communities who have been adversely affected by violent conflicts and natural disasters."
       />
-      <div className="flex flex-col gap-12 md:gap-16 xl:gap-20">
+      <div className="flex flex-col gap-10 md:gap-14 xl:gap-16">
         <WhoWeAre />
         <OurDonors />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10 flex flex-col gap-4 md:gap-6 lg:gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-8 flex flex-col gap-4 md:gap-6 lg:gap-8">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-sm font-medium tracking-wide text-cyan-600 uppercase">
               Our Leadership
@@ -35,8 +35,8 @@ export default function Page() {
               CENSCOPE is driven by experienced, passionate leadership dedicated to peace, cohesion, and empowerment across Northeast Nigeria.
             </p>
           </div>
-          <div className="w-fit flex flex-col md:flex-row items-center z-10 lg:items-stretch max-w-[90%] md:max-w-2xl lg:max-w-3xl h-fit 64 sm:h-72 md:h-80 lg:h-96">
-            <div className="w-full md:aspect-[2/3]">
+          <div className="w-fit flex flex-col md:flex-row items-center justify-center z-10 lg:items-stretch max-w-[90%] md:max-w-3xl lg:max-w-4xl h-fit 64 sm:h-72 md:h-80 lg:h-96">
+            <div className="w-full md:aspect-[2/3] max-w-xs">
               <Image
                 alt=""
                 width={320}
