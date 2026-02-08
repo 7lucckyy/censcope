@@ -39,6 +39,13 @@ export default function Footer() {
             </Link>
             <Link
               className="text-white/80 hover:text-white transition-colors duration-300 text-base font-medium"
+              href="/reports"
+              data-discover="true"
+            >
+              Reports
+            </Link>
+            <Link
+              className="text-white/80 hover:text-white transition-colors duration-300 text-base font-medium"
               href="/our-actions"
               data-discover="true"
             >
@@ -54,13 +61,9 @@ export default function Footer() {
           </div>
           <div className="h-px w-full bg-white/10 mb-8"></div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <Image
-              alt="Censcope logo"
-              src="/logo.png"
-              width={120}
-              height={28}
-              className="h-12 w-auto"
-            />
+            <Link href="/" className="hover:opacity-80 transition-opacity">
+            
+            </Link>
             <p className="text-center text-white/60 text-base">
               © {new Date().getFullYear()} Center for Social Cohesion, Peace and Empowerment (CENSCOPE). All rights
               reserved.

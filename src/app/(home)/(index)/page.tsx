@@ -3,12 +3,15 @@ import { FaArrowRight } from "react-icons/fa";
 import { isNotNull, and } from "drizzle-orm";
 
 import { db } from "@/db";
+import { getBackgroundImageUrl } from "@/lib/actions/settings";
 import { Banner } from "./(sections)/banner";
 import { Support } from "./(sections)/support";
 import Newline from "./(sections)/newsline";
 import { Actions } from "./(sections)/actions";
 import { Discover } from "./(sections)/discover";
 import { SocialMedia } from "./(sections)/socialmedia";
+import { ExecutiveDirector } from "./(sections)/executive-director";
+import { CTAButtons } from "./(sections)/cta-buttons";
 import { homeMetadata } from '@/config/metadata';
 
 export const dynamic = "force-dynamic";
@@ -40,10 +43,14 @@ export default async function Page() {
     ...post,
     tags: post.tags.map((p2t) => p2t.tag),
   }));
+  const backgroundImageUrl = await getBackgroundImageUrl();
+
   return (
     <>
-      <Banner />
+      <Banner backgroundImageUrl={backgroundImageUrl} />
       {postsWithTags.length > 0 && <Newline posts={postsWithTags} />}
+      <CTAButtons />
+      <ExecutiveDirector />
       <Support />
       <Actions />
       <Discover />
